@@ -11,10 +11,10 @@
             <span style="font-weight:bold;font-size:14px">📋 Clipboard Typer</span>
             <span id="dropdownArrow" style="font-size:12px;transition:transform 0.3s ease">▼</span>
         </div>
-        <div id="dropdownContent" style="background:rgba(0,0,0,0.8);border:2px solid #333;border-top:1px solid #333;border-radius:0 0 8px 8px;padding:15px;box-shadow:0 4px 20px rgba(0,0,0,0.8);display:none;transform:translateY(-10px);opacity:0;transition:all 0.3s ease">
+        <div id="dropdownContent" style="background:rgba(0,0,0,0.8);border:2px solid #333;border-top:1px solid #333;border-radius:0 0 8px 8px;padding:15px;box-shadow:0 4px 20px rgba(0,0,0,0.8);display:none;transform:translateY(-10px);opacity:0;transition:all 0.3s ease;height:auto;overflow:hidden">
             <div style="margin-bottom:15px">
-                <label style="display:block;margin-bottom:8px;font-size:13px">Typing Delay: <span id="delayValue">1</span>ms</label>
                 <div style="position:relative;height:30px;padding:12px 0;margin:5px 0">
+                    <span id="delayValue" style="position:absolute;top:-5px;left:10px;font-size:12px;color:#fff;font-weight:bold;z-index:20">1ms</span>
                     <div style="position:absolute;top:50%;left:0;right:0;height:6px;background:linear-gradient(90deg,#6366f1,#8b5cf6,#a855f7,#c084fc,#d8b4fe,#c084fc,#a855f7,#8b5cf6,#6366f1);background-size:800% 100%;animation:slideGradient 12s linear infinite;border-radius:3px;transform:translateY(-50%)"></div>
                     <div id="fisheyeEffect"></div>
                     <input type="range" id="typingDelay" value="1" min="0" max="200" style="position:absolute;top:50%;left:0;right:0;width:100%;height:6px;background:transparent;-webkit-appearance:none;appearance:none;outline:none;cursor:pointer;transform:translateY(-50%);z-index:10">
@@ -33,7 +33,7 @@
                     </style>
                 </div>
             </div>
-            <div style="margin-bottom:15px">
+            <div id="timerSection" style="margin-bottom:15px;height:0;opacity:0;overflow:hidden;transition:all 0.4s cubic-bezier(0.68,-0.55,0.265,1.55)">
                 <div id="countdownDisplay" style="font-size:24px;font-weight:bold;color:#ff6b6b;text-align:center;margin:10px 0;min-height:30px;transform:scale(0);opacity:0"></div>
             </div>
             <button id="startTyping" onclick="startClipboardTyping()" style="width:100%;padding:12px;background:#22c55e;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:14px;font-weight:bold">Start</button>
@@ -113,7 +113,7 @@
     }
     
     slider.oninput=function(){
-        delayValue.textContent=this.value;
+        delayValue.textContent=this.value+'ms';
         updateFisheyePosition()
     };
     
@@ -185,6 +185,7 @@
         
         const button=document.getElementById('startTyping');
         const countdownDisplay=document.getElementById('countdownDisplay');
+        const timerSection=document.getElementById('timerSection');
         const delay=parseInt(document.getElementById('typingDelay').value)||1;
         
         try{
@@ -193,6 +194,10 @@
                 alert('Clipboard is empty!');
                 return;
             }
+            
+            // Expand timer section
+            timerSection.style.height='60px';
+            timerSection.style.opacity='1';
             
             button.style.transform='translateY(2px)';
             setTimeout(()=>{
@@ -204,10 +209,12 @@
             stopTyping=false;
             
             let countdown=5;
-            countdownDisplay.style.animation='bounceIn 0.5s cubic-bezier(0.68,-0.55,0.265,1.55)';
-            countdownDisplay.style.transform='scale(1)';
-            countdownDisplay.style.opacity='1';
-            countdownDisplay.textContent=countdown;
+            setTimeout(()=>{
+                countdownDisplay.style.animation='bounceIn 0.5s cubic-bezier(0.68,-0.55,0.265,1.55)';
+                countdownDisplay.style.transform='scale(1)';
+                countdownDisplay.style.opacity='1';
+                countdownDisplay.textContent=countdown;
+            },200);
             
             countdownInterval=setInterval(()=>{
                 if(stopTyping){
@@ -238,6 +245,7 @@
     function resetButton(){
         const button=document.getElementById('startTyping');
         const countdownDisplay=document.getElementById('countdownDisplay');
+        const timerSection=document.getElementById('timerSection');
         
         button.style.transform='translateY(-2px)';
         setTimeout(()=>{
@@ -251,7 +259,13 @@
             countdownDisplay.style.transform='scale(0)';
             countdownDisplay.style.opacity='0';
             countdownDisplay.textContent='';
-            countdownDisplay.style.color='#ff6b6b'
+            countdownDisplay.style.color='#ff6b6b';
+            
+            // Collapse timer section after countdown animation
+            setTimeout(()=>{
+                timerSection.style.height='0';
+                timerSection.style.opacity='0';
+            },100);
         },300);
         
         isTyping=false;
