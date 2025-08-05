@@ -33,7 +33,7 @@
                     </style>
                 </div>
             </div>
-            <div id="timerSection" style="margin-bottom:15px;height:45px;opacity:0;overflow:hidden;transition:all 0.3s linear">
+            <div id="timerSection" style="margin-bottom:15px;height:20px;opacity:1;overflow:hidden;transition:all 0.3s linear">
                 <div id="countdownDisplay" style="font-size:24px;font-weight:bold;color:#ff6b6b;text-align:center;margin:10px 0;min-height:30px;transform:scale(0);opacity:0"></div>
             </div>
             <button id="startTyping" onclick="startClipboardTyping()" style="width:100%;padding:12px;background:#22c55e;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:14px;font-weight:bold">Start</button>
@@ -195,8 +195,8 @@
                 return;
             }
             
-            // Show timer section
-            timerSection.style.opacity='1';
+            // Expand timer section
+            timerSection.style.height='60px';
             
             button.style.transform='translateY(2px)';
             setTimeout(()=>{
@@ -260,9 +260,9 @@
             countdownDisplay.textContent='';
             countdownDisplay.style.color='#ff6b6b';
             
-            // Hide timer section after countdown animation
+            // Collapse timer section back to gap size
             setTimeout(()=>{
-                timerSection.style.opacity='0';
+                timerSection.style.height='20px';
             },100);
         },300);
         
