@@ -14,7 +14,6 @@
         <div id="dropdownContent" style="background:rgba(0,0,0,0.8);border:2px solid #333;border-top:1px solid #333;border-radius:0 0 8px 8px;padding:15px;box-shadow:0 4px 20px rgba(0,0,0,0.8);display:none;transform:translateY(-10px);opacity:0;transition:all 0.3s ease;height:auto;overflow:hidden">
             <div style="margin-bottom:15px">
                 <div style="position:relative;height:30px;padding:12px 0;margin:5px 0">
-                    <span id="delayValue" style="position:absolute;top:-5px;left:10px;font-size:12px;color:#fff;font-weight:bold;z-index:20">1ms</span>
                     <div style="position:absolute;top:50%;left:0;right:0;height:6px;background:linear-gradient(90deg,#6366f1,#8b5cf6,#a855f7,#c084fc,#d8b4fe,#c084fc,#a855f7,#8b5cf6,#6366f1);background-size:800% 100%;animation:slideGradient 12s linear infinite;border-radius:3px;transform:translateY(-50%)"></div>
                     <div id="fisheyeEffect"></div>
                     <input type="range" id="typingDelay" value="1" min="0" max="200" style="position:absolute;top:50%;left:0;right:0;width:100%;height:6px;background:transparent;-webkit-appearance:none;appearance:none;outline:none;cursor:pointer;transform:translateY(-50%);z-index:10">
@@ -113,7 +112,6 @@
     }
     
     slider.oninput=function(){
-        delayValue.textContent=this.value+'ms';
         updateFisheyePosition()
     };
     
