@@ -1,8 +1,8 @@
-# Redação Paraná Helper
+# Redação Paraná Destroyer
 
 <div align="center">
 
-**Ferramenta para automação de digitação em formulários web**
+**Ferramenta para automação de digitação no Redação Paraná**
 
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 ![License](https://img.shields.io/badge/License-GPL%20v3-blue?style=for-the-badge)
