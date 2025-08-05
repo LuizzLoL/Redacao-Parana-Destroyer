@@ -33,7 +33,7 @@
                     </style>
                 </div>
             </div>
-            <div id="timerSection" style="margin-bottom:15px;height:0;opacity:0;overflow:hidden;transition:all 0.4s cubic-bezier(0.68,-0.55,0.265,1.55)">
+            <div id="timerSection" style="margin-bottom:15px;height:45px;opacity:0;overflow:hidden;transition:all 0.3s linear">
                 <div id="countdownDisplay" style="font-size:24px;font-weight:bold;color:#ff6b6b;text-align:center;margin:10px 0;min-height:30px;transform:scale(0);opacity:0"></div>
             </div>
             <button id="startTyping" onclick="startClipboardTyping()" style="width:100%;padding:12px;background:#22c55e;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:14px;font-weight:bold">Start</button>
@@ -195,8 +195,7 @@
                 return;
             }
             
-            // Expand timer section
-            timerSection.style.height='60px';
+            // Show timer section
             timerSection.style.opacity='1';
             
             button.style.transform='translateY(2px)';
@@ -210,11 +209,11 @@
             
             let countdown=5;
             setTimeout(()=>{
-                countdownDisplay.style.animation='bounceIn 0.5s cubic-bezier(0.68,-0.55,0.265,1.55)';
+                countdownDisplay.style.animation='bounceIn 0.3s linear';
                 countdownDisplay.style.transform='scale(1)';
                 countdownDisplay.style.opacity='1';
                 countdownDisplay.textContent=countdown;
-            },200);
+            },100);
             
             countdownInterval=setInterval(()=>{
                 if(stopTyping){
@@ -261,9 +260,8 @@
             countdownDisplay.textContent='';
             countdownDisplay.style.color='#ff6b6b';
             
-            // Collapse timer section after countdown animation
+            // Hide timer section after countdown animation
             setTimeout(()=>{
-                timerSection.style.height='0';
                 timerSection.style.opacity='0';
             },100);
         },300);
