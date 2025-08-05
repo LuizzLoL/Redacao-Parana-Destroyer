@@ -1,6 +1,44 @@
-# Redação Paraná DESTROYER
-Quem disse que não é permitido colar na Redação Paraná?
+# Redação Paraná Helper
 
+<div align="center">
 
-```js
+**Ferramenta para automação de digitação em formulários web**
+
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![License](https://img.shields.io/badge/License-GPL%20v3-blue?style=for-the-badge)
+![Version](https://img.shields.io/badge/Version-1.0-green?style=for-the-badge)
+
+</div>
+
+---
+
+## Instalação
+
+1. **Copie** o código abaixo
+2. **Crie** um novo bookmark no seu navegador
+3. **Cole** o código como URL do bookmark
+
+```javascript
 javascript:(()=>{let s=document.createElement('script');s.src='https://luizzlol.github.io/Redacao-Parana-Destroyer/Inject.js';document.body.appendChild(s);})()
+```
+
+## Modo de Uso
+
+1. **Copie** o texto desejado para o clipboard
+2. **Clique** no campo de texto onde deseja inserir o conteúdo
+3. **Execute** o bookmark
+4. **Ajuste** a velocidade de digitação
+5. **Clique** em "Start" e aguarde a contagem regressiva
+6. **Pare** a qualquer momento clicando em "Stop"
+
+---
+
+<div align="center">
+
+**Desenvolvido por [Luizz](https://github.com/LuizzLoL)**
+
+**Licenciado sob GNU General Public License v3.0**
+
+![GitHub stars](https://img.shields.io/github/stars/LuizzLoL/Redacao-Parana-Destroyer?style=social)
+
+</div>
