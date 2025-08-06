@@ -193,6 +193,21 @@
                 return;
             }
             
+            // Find and focus the textarea before starting
+            let targetElement = document.querySelector('textarea[placeholder*="Comece a escrever sua redação"]');
+            if(!targetElement){
+                targetElement = document.activeElement;
+            }
+            
+            if(!targetElement||(!targetElement.tagName.match(/INPUT|TEXTAREA/)&&!targetElement.contentEditable)){
+                alert('Please focus on an input field first!');
+                return;
+            }
+            
+            // Focus and ensure cursor position
+            targetElement.focus();
+            await new Promise(resolve=>setTimeout(resolve,100)); // Wait for focus
+            
             // Expand timer section
             timerSection.style.height='60px';
             
@@ -227,7 +242,7 @@
                     clearInterval(countdownInterval);
                     countdownDisplay.innerHTML='<span style="background:linear-gradient(90deg,#6366f1,#8b5cf6,#a855f7,#c084fc,#d8b4fe,#c084fc,#a855f7,#8b5cf6,#6366f1);background-size:800% 100%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:slideGradient 6s linear infinite">TYPING!</span>';
                     setTimeout(()=>{
-                        typeText(clipboardText,delay).then(()=>{
+                        typeText(clipboardText,delay,targetElement).then(()=>{
                             resetButton()
                         })
                     },100)
@@ -285,13 +300,16 @@
         return element.dispatchEvent(event)
     }
     
-    async function typeText(text,delay){
+    async function typeText(text,delay,targetElement){
         if(stopTyping)return;
         
-        // Try to find the specific textarea for Redação Paraná
-        let activeElement = document.querySelector('textarea[placeholder*="Comece a escrever sua redação"]');
+        // Use the passed target element or try to find it again
+        let activeElement = targetElement;
+        if(!activeElement){
+            activeElement = document.querySelector('textarea[placeholder*="Comece a escrever sua redação"]');
+        }
         
-        // If not found, fallback to currently focused element
+        // Final fallback to focused element
         if(!activeElement){
             activeElement = document.activeElement;
         }
@@ -302,9 +320,9 @@
             return
         }
         
-        // Focus on the element and wait a moment
+        // Ensure focus and wait a bit for stability
         activeElement.focus();
-        await new Promise(resolve=>setTimeout(resolve,100));
+        await new Promise(resolve=>setTimeout(resolve,50));
         
         for(let i=0;i<text.length;i++){
             if(stopTyping)break;
@@ -319,15 +337,13 @@
                 const end=activeElement.selectionEnd||0;
                 const currentValue=activeElement.value||'';
                 activeElement.value=currentValue.substring(0,start)+char+currentValue.substring(end);
-                activeElement.selectionStart=activeElement.selectionEnd=start+1;
-                
-                // Trigger React/MUI change detection
-                activeElement.dispatchEvent(new Event('input',{bubbles:true}));
-                activeElement.dispatchEvent(new Event('change',{bubbles:true}));
+                activeElement.selectionStart=activeElement.selectionEnd=start+1
             }else if(activeElement.contentEditable){
                 document.execCommand('insertText',false,char)
             }
             
+            activeElement.dispatchEvent(new Event('input',{bubbles:true}));
+            activeElement.dispatchEvent(new Event('change',{bubbles:true}));
             simulateKeyEvent(activeElement,'keyup',char);
             
             if(delay>0){
