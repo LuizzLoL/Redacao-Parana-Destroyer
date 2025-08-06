@@ -205,7 +205,7 @@
             isTyping=true;
             stopTyping=false;
             
-            let countdown=5;
+            let countdown=3;
             setTimeout(()=>{
                 countdownDisplay.style.animation='bounceIn 0.3s linear';
                 countdownDisplay.style.transform='scale(1)';
@@ -288,12 +288,22 @@
     async function typeText(text,delay){
         if(stopTyping)return;
         
-        const activeElement=document.activeElement;
+        // Try to find the specific textarea for Redação Paraná
+        let activeElement = document.querySelector('textarea[placeholder*="Comece a escrever sua redação"]');
+        
+        // If not found, fallback to currently focused element
+        if(!activeElement){
+            activeElement = document.activeElement;
+        }
+        
         if(!activeElement||(!activeElement.tagName.match(/INPUT|TEXTAREA/)&&!activeElement.contentEditable)){
             alert('Please focus on an input field first!');
             resetButton();
             return
         }
+        
+        // Focus on the element to ensure it's active
+        activeElement.focus();
         
         for(let i=0;i<text.length;i++){
             if(stopTyping)break;
