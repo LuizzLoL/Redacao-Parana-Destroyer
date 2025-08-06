@@ -302,8 +302,9 @@
             return
         }
         
-        // Focus on the element to ensure it's active
+        // Focus on the element and wait a moment
         activeElement.focus();
+        await new Promise(resolve=>setTimeout(resolve,100));
         
         for(let i=0;i<text.length;i++){
             if(stopTyping)break;
@@ -318,13 +319,15 @@
                 const end=activeElement.selectionEnd||0;
                 const currentValue=activeElement.value||'';
                 activeElement.value=currentValue.substring(0,start)+char+currentValue.substring(end);
-                activeElement.selectionStart=activeElement.selectionEnd=start+1
+                activeElement.selectionStart=activeElement.selectionEnd=start+1;
+                
+                // Trigger React/MUI change detection
+                activeElement.dispatchEvent(new Event('input',{bubbles:true}));
+                activeElement.dispatchEvent(new Event('change',{bubbles:true}));
             }else if(activeElement.contentEditable){
                 document.execCommand('insertText',false,char)
             }
             
-            activeElement.dispatchEvent(new Event('input',{bubbles:true}));
-            activeElement.dispatchEvent(new Event('change',{bubbles:true}));
             simulateKeyEvent(activeElement,'keyup',char);
             
             if(delay>0){
