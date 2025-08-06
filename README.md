@@ -1,6 +1,8 @@
-<img src="https://cdn.discordapp.com/attachments/1361373500027441285/1402440898889121985/Untitled62_20250805205806.png?ex=6893ec5e&is=68929ade&hm=0fb20d981a67f8df5d2f9b9eab7e37d77505f9fe1131dad4471d8b99e88028e8&" width="192" height="192" align="left">
+<img src="https://cdn.discordapp.com/attachments/1361373500027441285/1402440898889121985/Untitled62_20250805205806.png?ex=6893ec5e&is=68929ade&hm=0fb20d981a67f8df5d2f9b9eab7e37d77505f9fe1131dad4471d8b99e88028e8&" width="128" height="128" align="left">
 
 # Redação Paraná Destroyer
+
+<br>
 
 <div align="center">
 
@@ -11,6 +13,8 @@
 ![Version](https://img.shields.io/badge/Version-1.0-green?style=for-the-badge)
 
 </div>
+
+<br clear="left">
 
 ---
 
