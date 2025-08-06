@@ -159,7 +159,7 @@
     };
     
     let countdownInterval;
-    let typingInterval;
+    let typingTimeouts = []; // Changed from single interval to array of timeouts
     let isTyping=false;
     let stopTyping=false;
     
@@ -176,7 +176,9 @@
         if(isTyping){
             stopTyping=true;
             clearInterval(countdownInterval);
-            clearInterval(typingInterval);
+            // Clear all pending typing timeouts
+            typingTimeouts.forEach(timeout => clearTimeout(timeout));
+            typingTimeouts = [];
             resetButton();
             return;
         }
@@ -281,9 +283,9 @@
         
         isTyping=false;
         stopTyping=false;
-        if(typingInterval){
-            clearInterval(typingInterval);
-        }
+        // Clear any remaining timeouts
+        typingTimeouts.forEach(timeout => clearTimeout(timeout));
+        typingTimeouts = [];
     }
     
     function simulateKeyEvent(element,eventType,char){
@@ -324,10 +326,14 @@
         activeElement.focus();
         await new Promise(resolve=>setTimeout(resolve,50));
         
-        for(let i=0;i<text.length;i++){
-            if(stopTyping)break;
+        // Changed to recursive setTimeout approach instead of for loop
+        function typeCharacter(index) {
+            if(stopTyping || index >= text.length) {
+                // Typing completed or stopped
+                return;
+            }
             
-            const char=text[i];
+            const char = text[index];
             
             simulateKeyEvent(activeElement,'keydown',char);
             simulateKeyEvent(activeElement,'keypress',char);
@@ -346,9 +352,21 @@
             activeElement.dispatchEvent(new Event('change',{bubbles:true}));
             simulateKeyEvent(activeElement,'keyup',char);
             
-            if(delay>0){
-                await new Promise(resolve=>setTimeout(resolve,delay))
-            }
+            // Schedule next character
+            const timeout = setTimeout(() => {
+                // Remove this timeout from the array once it executes
+                const timeoutIndex = typingTimeouts.indexOf(timeout);
+                if (timeoutIndex > -1) {
+                    typingTimeouts.splice(timeoutIndex, 1);
+                }
+                typeCharacter(index + 1);
+            }, Math.max(delay, 1)); // Ensure minimum 1ms delay to yield control
+            
+            // Store timeout reference so we can cancel it if needed
+            typingTimeouts.push(timeout);
         }
+        
+        // Start typing the first character
+        typeCharacter(0);
     }
 })();
